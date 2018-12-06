@@ -1,10 +1,14 @@
-package com.aimicor.hsbc
+package com.aimicor.hsbc.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.webkit.WebView
-import android.webkit.WebViewClient
+import com.aimicor.hsbc.R
+import com.aimicor.hsbc.presenter.WebViewPresenter
+import com.aimicor.hsbc.presenter.WebViewView
+import com.aimicor.rxwebview.events
+import com.github.satoshun.reactivex.webkit.data.OnPageFinished
 
 /**
  * This app satisfies all of the specified criteria. Regrettably, the app is
@@ -32,23 +36,29 @@ import android.webkit.WebViewClient
  * mocking Kotlin classes that are 'final' by default, if necessary.
  */
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), WebViewView {
 
-    private val webView: WebView by lazy { findViewById(R.id.web_view) as WebView }
-    private val progressBar: View by lazy { findViewById(R.id.progressbar) as View }
+    private val webView by lazy { findViewById<WebView>(R.id.web_view) }
+    private val progressBar by lazy { findViewById<View>(R.id.progressbar) }
+
+    private val presenter = WebViewPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        webView.webViewClient = object :WebViewClient() {
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                webView.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-            }
-        }
+        presenter.attach(this)
         webView.loadUrl(getString(R.string.url))
+    }
+
+    override fun pageFinishedEvent() = webView.events().ofType(OnPageFinished::class.java)
+
+    override fun onPageFinished() {
+        webView.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detach(this)
     }
 }

@@ -1,4 +1,7 @@
-apply plugin: 'com.android.application'
+// This module completes an otherwise useful rx binding library (the events were missing from the published code)
+// https://github.com/satoshun/RxWebView
+
+apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
@@ -9,14 +12,14 @@ android {
         exclude 'META-INF/proguard/androidx-annotations.pro'
     }
     compileSdkVersion 28
+
     defaultConfig {
-        applicationId "com.aimicor.hsbc"
         minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -26,13 +29,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':presenter')
-    implementation project(':rxwebview')
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation "com.github.satoshun.RxWebView:rxwebview:2.3.0"
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
