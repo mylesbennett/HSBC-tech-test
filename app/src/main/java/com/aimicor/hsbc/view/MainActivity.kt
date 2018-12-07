@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.webkit.WebView
 import com.aimicor.hsbc.R
+import com.aimicor.hsbc.presenter.Presenter
 import com.aimicor.hsbc.presenter.WebViewPresenter
 import com.aimicor.hsbc.presenter.WebViewView
 import com.aimicor.rxwebview.events
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity(), WebViewView {
     private val webView by lazy { findViewById<WebView>(R.id.web_view) }
     private val progressBar by lazy { findViewById<View>(R.id.progressbar) }
 
-    private val presenter = WebViewPresenter()
+    private val presenter : Presenter<WebViewView> = WebViewPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
