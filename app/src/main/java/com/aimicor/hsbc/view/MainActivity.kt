@@ -6,9 +6,11 @@ import android.view.View
 import android.webkit.WebView
 import com.aimicor.hsbc.R
 import com.aimicor.hsbc.presenter.Presenter
-import com.aimicor.hsbc.presenter.WebViewPresenter
 import com.aimicor.hsbc.presenter.WebViewView
 import com.aimicor.rxwebview.events
+import com.github.salomonbrys.kodein.KodeinInjector
+import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
+import com.github.salomonbrys.kodein.instance
 import com.github.satoshun.reactivex.webkit.data.OnPageFinished
 
 /**
@@ -37,15 +39,17 @@ import com.github.satoshun.reactivex.webkit.data.OnPageFinished
  * mocking Kotlin classes that are 'final' by default, if necessary.
  */
 
-class MainActivity : AppCompatActivity(), WebViewView {
+class MainActivity : AppCompatActivity(), AppCompatActivityInjector, WebViewView {
+    override val injector: KodeinInjector = KodeinInjector()
+    private val presenter: Presenter<WebViewView> by instance()
 
     private val webView by lazy { findViewById<WebView>(R.id.web_view) }
     private val progressBar by lazy { findViewById<View>(R.id.progressbar) }
 
-    private val presenter : Presenter<WebViewView> = WebViewPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initializeInjector()
         setContentView(R.layout.activity_main)
         presenter.attach(this)
         webView.loadUrl(getString(R.string.url))
@@ -59,7 +63,8 @@ class MainActivity : AppCompatActivity(), WebViewView {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         presenter.detach(this)
+        destroyInjector()
+        super.onDestroy()
     }
 }
