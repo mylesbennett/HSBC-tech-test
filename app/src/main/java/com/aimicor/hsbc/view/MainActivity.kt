@@ -8,22 +8,21 @@ import com.aimicor.hsbc.R
 import com.aimicor.hsbc.presenter.Presenter
 import com.aimicor.hsbc.presenter.WebViewView
 import com.aimicor.rxwebview.events
-import com.github.salomonbrys.kodein.KodeinInjector
-import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
-import com.github.salomonbrys.kodein.instance
 import com.github.satoshun.reactivex.webkit.data.OnPageFinished
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
-class MainActivity : AppCompatActivity(), AppCompatActivityInjector, WebViewView {
-    override val injector: KodeinInjector = KodeinInjector()
+class MainActivity : AppCompatActivity(), KodeinAware, WebViewView {
+    override val kodein: Kodein by closestKodein()
     private val presenter: Presenter<WebViewView> by instance()
 
     private val webView by lazy { findViewById<WebView>(R.id.web_view) }
     private val progressBar by lazy { findViewById<View>(R.id.progressbar) }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeInjector()
         setContentView(R.layout.activity_main)
         presenter.attach(this)
         webView.loadUrl(getString(R.string.url))
@@ -38,7 +37,6 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector, WebViewView
 
     override fun onDestroy() {
         presenter.detach(this)
-        destroyInjector()
         super.onDestroy()
     }
 }
