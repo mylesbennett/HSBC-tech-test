@@ -10,8 +10,6 @@ With this arrangement, all of the business logic could be written in entirely se
 The rx-binding library that the original article depends upon does not include WebView support so I found another library that does:
 https://github.com/satoshun/RxWebView
 
-Unfortunately the Maven release of this library is missing the vital event classes which is why there is a custom module 'rxwebview' that adds the required class back in.
-
 The other thing to note is the method of dependancy injection used. It's not Dagger2. In the interests of time conservation I used a Kodein:
 http://kodein.org/Kodein-DI/?6.0/android
 

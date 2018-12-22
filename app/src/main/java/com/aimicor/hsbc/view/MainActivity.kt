@@ -7,8 +7,8 @@ import android.webkit.WebView
 import com.aimicor.hsbc.R
 import com.aimicor.hsbc.presenter.Presenter
 import com.aimicor.hsbc.presenter.WebViewView
-import com.aimicor.rxwebview.events
 import com.github.satoshun.reactivex.webkit.data.OnPageFinished
+import com.github.satoshun.reactivex.webkit.events
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), KodeinAware, WebViewView {
         webView.loadUrl(getString(R.string.url))
     }
 
-    override fun pageFinishedEvent() = webView.events().ofType(OnPageFinished::class.java)
+    override fun pageFinishedEvent() = webView.events().ofType(OnPageFinished::class.java).map {  }!!
 
     override fun onPageFinished() {
         webView.visibility = View.VISIBLE
