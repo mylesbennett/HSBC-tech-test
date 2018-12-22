@@ -6,15 +6,15 @@ import android.view.View
 import android.webkit.WebView
 import com.aimicor.hsbc.R
 import com.aimicor.hsbc.presenter.WebViewView
+import com.aimicor.hsbc.view.PresenterDelegate.Companion.presenterDelegate
 import com.aimicor.rxwebview.events
 import com.github.satoshun.reactivex.webkit.data.OnPageFinished
 
-class MainActivity : AppCompatActivity(), WebViewView, PresenterAware<WebViewView> {
-    override val presenterDelegate = PresenterDelegate<WebViewView>(
-        context = this,
-        attachedLifecycle = lifecycle,
-        view = this
-    )
+class MainActivity : AppCompatActivity(), WebViewView, PresenterAware {
+    override val presenterDelegate = presenterDelegate<WebViewView>(this) {
+        bindLifeCycle(lifecycle)
+        bindView(this@MainActivity)
+    }
     private val webView by lazy { findViewById<WebView>(R.id.web_view) }
     private val progressBar by lazy { findViewById<View>(R.id.progressbar) }
 

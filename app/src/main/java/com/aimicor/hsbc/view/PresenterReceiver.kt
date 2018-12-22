@@ -10,17 +10,32 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
-class PresenterDelegate<VIEW : Presenter.View>(
-    val context: Context,
-    val attachedLifecycle: Lifecycle,
-    val view: VIEW
-) : KodeinAware, LifecycleObserver {
-
+class PresenterDelegate<VIEW : Presenter.View> private constructor(val context: Context) : KodeinAware,
+    LifecycleObserver {
     override val kodein: Kodein by closestKodein(context)
     private val presenter: Presenter<VIEW> by instance()
 
-    init {
+    lateinit var attachedLifecycle: Lifecycle
+    lateinit var view: VIEW
+
+    companion object {
+        fun <VIEW : Presenter.View> presenterDelegate(
+            context: Context,
+            body: PresenterDelegate<VIEW>.() -> Unit
+        ): PresenterDelegate<VIEW> {
+            val presenterDelegate = PresenterDelegate<VIEW>(context)
+            body(presenterDelegate)
+            return presenterDelegate
+        }
+    }
+
+    fun bindLifeCycle(lifecycle: Lifecycle) {
+        attachedLifecycle = lifecycle
         attachedLifecycle.addObserver(this)
+    }
+
+    fun bindView(view: VIEW) {
+        this.view = view
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
@@ -33,4 +48,8 @@ class PresenterDelegate<VIEW : Presenter.View>(
         presenter.detach(view)
         attachedLifecycle.removeObserver(this)
     }
+}
+
+interface PresenterAware{
+    val presenterDelegate: PresenterDelegate<*>
 }
