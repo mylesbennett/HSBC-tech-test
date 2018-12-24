@@ -31,7 +31,7 @@ class PresenterTest {
 
     @Rule
     @JvmField
-    val presenterOverridesRule = PresenterOverridesRule {
+    val presenterOverridesRule = OverridesRule {
         bind<Presenter<WebViewView>>(overrides = true) with provider { webViewPresenter }
     }
 

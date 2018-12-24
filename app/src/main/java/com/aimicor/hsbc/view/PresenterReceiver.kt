@@ -19,8 +19,6 @@ class PresenterDelegate<VIEW : Presenter.View> private constructor(val context: 
     lateinit var view: VIEW
 
     companion object {
-        var presenterBindingsOverride: Kodein.MainBuilder.() -> Unit = {}
-
         fun <VIEW : Presenter.View> presenterDelegate(
             context: Context,
             body: PresenterDelegate<VIEW>.() -> Unit
