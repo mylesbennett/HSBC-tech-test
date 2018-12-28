@@ -20,7 +20,7 @@ class MainFragment : Fragment(), WebViewView, PresenterAware {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        presenterDelegate = presenterDelegate(context!!) {
+        presenterDelegate = presenterDelegate(context) {
             bindLifeCycle(lifecycle)
             bindView(this@MainFragment)
         }
