@@ -13,13 +13,8 @@ import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(MockitoJUnitRunner::class)
-class PresenterTest {
+class AttachDetachWebViewPresenterTest {
 
     @Mock
     private lateinit var webViewPresenter: Presenter<Presenter.View>
@@ -44,5 +39,4 @@ class PresenterTest {
         verify(webViewPresenter).detach(mainActivity)
 
     }
-
 }

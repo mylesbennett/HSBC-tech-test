@@ -38,12 +38,12 @@ class PresenterDelegate<VIEW : Presenter.View> private constructor(val context: 
         this.view = view
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun create() {
         presenter.attach(view)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun destroy() {
         presenter.detach(view)
         attachedLifecycle.removeObserver(this)
