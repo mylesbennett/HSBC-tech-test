@@ -5,16 +5,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.aimicor.hsbc.R
 import com.aimicor.hsbc.presenter.WebViewView
-import com.aimicor.hsbc.view.PresenterDelegate.Companion.presenterDelegate
+import com.aimicor.hsbc.view.presenterDelegateSupport.presenterDelegate
 import com.github.satoshun.reactivex.webkit.data.OnPageFinished
 import com.github.satoshun.reactivex.webkit.events
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), WebViewView, PresenterAware {
-    override val presenterDelegate = presenterDelegate<WebViewView>(this) {
-        bindLifeCycle(lifecycle)
-        bindView(this@MainActivity)
-    }
+    override val presenterDelegate = presenterDelegate(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

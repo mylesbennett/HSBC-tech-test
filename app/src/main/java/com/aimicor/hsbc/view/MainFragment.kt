@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.aimicor.hsbc.R
 import com.aimicor.hsbc.presenter.WebViewView
-import com.aimicor.hsbc.view.PresenterDelegate.Companion.presenterDelegate
+import com.aimicor.hsbc.view.presenterDelegateSupport.presenterDelegate
 import com.github.satoshun.reactivex.webkit.data.OnPageFinished
 import com.github.satoshun.reactivex.webkit.events
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,14 +16,11 @@ import kotlinx.android.synthetic.main.activity_main.*
  * Redundant class demonstrating PresenterDelegate usage on a Fragment
  */
 class MainFragment : Fragment(), WebViewView, PresenterAware {
-    override lateinit var presenterDelegate : PresenterDelegate<WebViewView>
+    override lateinit var presenterDelegate : PresenterDelegate<MainFragment>
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        presenterDelegate = presenterDelegate(context) {
-            bindLifeCycle(lifecycle)
-            bindView(this@MainFragment)
-        }
+        presenterDelegate = presenterDelegate(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
