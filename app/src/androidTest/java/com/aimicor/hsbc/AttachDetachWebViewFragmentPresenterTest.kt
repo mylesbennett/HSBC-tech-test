@@ -1,24 +1,22 @@
 package com.aimicor.hsbc
 
 import android.support.test.rule.ActivityTestRule
+import android.support.test.runner.AndroidJUnit4
 import com.aimicor.hsbc.presenter.Presenter
 import com.aimicor.hsbc.presenter.WebViewView
 import com.aimicor.hsbc.view.MainFragmentActivity
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.provider
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(AndroidJUnit4::class)
 class AttachDetachWebViewFragmentPresenterTest {
 
-    @Mock
-    private lateinit var webViewPresenter: Presenter<Presenter.View>
+    private val webViewPresenter = mock(TestPresenter::class.java)
 
     @Rule
     @JvmField
@@ -31,15 +29,15 @@ class AttachDetachWebViewFragmentPresenterTest {
         bind<Presenter<WebViewView>>(overrides = true) with provider { webViewPresenter }
     }
 
-    @Ignore // TODO only works in isolation from other tests in package
     @Test
     fun test_attach_and_detach_called() {
         val fragment = mainFragmentActivity.supportFragmentManager.findFragmentById(R.id.fragment) as Presenter.View
-        Mockito.verify(webViewPresenter).attach(fragment)
+        verify(webViewPresenter).attach(fragment)
 
         mainFragmentActivity.finish()
         Thread.sleep(2000)
-        Mockito.verify(webViewPresenter).detach(fragment)
+        verify(webViewPresenter).detach(fragment)
 
     }
+
 }

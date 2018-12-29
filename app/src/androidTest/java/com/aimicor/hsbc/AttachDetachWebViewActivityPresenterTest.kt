@@ -1,6 +1,7 @@
 package com.aimicor.hsbc
 
 import android.support.test.rule.ActivityTestRule
+import android.support.test.runner.AndroidJUnit4
 import com.aimicor.hsbc.presenter.Presenter
 import com.aimicor.hsbc.presenter.WebViewView
 import com.aimicor.hsbc.view.MainActivity
@@ -9,15 +10,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.provider
-import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(AndroidJUnit4::class)
 class AttachDetachWebViewActivityPresenterTest {
 
-    @Mock
-    private lateinit var webViewPresenter: Presenter<Presenter.View>
+    private val webViewPresenter = Mockito.mock(TestPresenter::class.java)
 
     @Rule
     @JvmField
