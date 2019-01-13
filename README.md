@@ -1,3 +1,8 @@
+# UPDATE #
+For a better example, please see my latest (as of 13/01/2019) tech test. This has better code arrangement, more robust presenter delegation code for the views and there is Retrofit fetching and parsing - the Model layer that is missing from this example. It just doesn't display my CV...
+
+https://github.com/mylesbennett/reactive-mvp
+
 # README #
 
 The initial commit of this repository satisfied all of HSBC's tech test specifications bar one. Regrettably, the app was so simple that it did little to demonstrate "Good engineering principles". For that reason, I implemented a dependency-injected, reactive MVP arrangement which would otherwise be considered gross over-kill. I felt it was more important to show this than to bog-down the business logic with unecessary Retrofit calls and JSON parsing when a simple html page loaded into a WebView would cover it.
